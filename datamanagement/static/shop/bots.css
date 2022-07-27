@@ -1,0 +1,61 @@
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+      .fa {
+        padding: 20px;
+        font-size: 20px;
+        width: 50px;
+        text-align: center;
+        text-decoration: none;
+      }
+      
+      /* Add a hover effect if you want */
+      .fa:hover {
+        opacity: 0.7;
+      }
+      .fa-facebook-f:before,
+      .fa-facebook:before {
+        color: rgb(63, 94, 197);
+      }
+      .fa-twitter-f:before,
+      .fa-twitter:before {
+        color: rgb(255, 255, 255);
+      }
+      .fa-youtube-f:before,
+      .fa-youtube:before {
+        color: rgb(255, 0, 0);
+      }
+      .fa-facebook-f:before,
+      .fa-facebook:before {
+        color: rgb(119, 151, 255);
+      }
+      @media (min-width: 800px) and (max-width: 850px) {
+        .navbar:not(.top-nav-collapse) {
+          background: #1c2331 !important;
+        }
+      }
+      
+.container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    max-width: 100%;
+}
+      .top-bg{
+          background-image: linear-gradient(to bottom right, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.73)),url('./data/img/pexels-alesia-kozik-6781008.jpg');
+          background-position-x: center center/cover;                    
+      }
+@font-face {
+    font-family: botsFont;
+    src: url('./data/font/fine-blackboard/Fine\ Blackboard.ttf');
+}
+.bots_font{
+    font-family: botsFont;
+}

@@ -1,0 +1,44 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Lato', sans-serif;
+    font-size: 100%;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  
+  .header {
+    height: 65vh;
+    background-image: linear-gradient(
+      rgba(0,0,0,0.8),
+      rgba(0,0,0,0.8)
+      ),
+      url(https://images.unsplash.com/photo-1482858683229-74280d78908b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=5530707633478a5be10d25f09dacf9ef&auto=format&fit=crop&w=700&q=60);
+    background-size: cover;
+    background-position: top;
+    position: relative;  
+  }
+  
+  .page-heading {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #aaa;
+    white-space: nowrap;
+  }
+  
+  .page-heading-primary {
+    display: block;
+    font-size: 3.125rem;
+    font-weight: 300;
+    color: #3498db;
+  }
+  
+  .page-heading-secondary {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 4.5px;
+  }

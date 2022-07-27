@@ -1,0 +1,129 @@
+User Details:
+
+ClientCode/UserId: TDEMO1,TDEMO2
+
+Password: abcd1234
+
+YOB: 2000
+
+
+
+API Base URL: https://stagingtradingoapi.swastika.co.in/
+
+AppId/UserName: lakshyaguptaApp
+
+SECRET KEY/Password: lakshyaguptaApp@01734
+
+AES KEY(encryption/decryption): lakshyagupta@01734
+
+Version : 1
+
+ 
+
+ 
+
+Examples:
+
+ 
+
+For Token :
+
+ 
+
+POST https://stagingtradingoapi.swastika.co.in/token
+
+Request Headers:
+
+Content-Type: application/x-www-form-urlencoded
+
+ 
+
+Request Body:
+
+grant_type: "password"
+
+username: "lakshyaguptaApp"
+
+password: "lakshyaguptaApp@01734"
+
+version: "1"
+
+ 
+
+Response Body:
+
+{
+
+    "access_token": "KoPInr2W5xuiWiwejJTo_XGz4YNJF0SGjy6K56SCIWszt1mhWefZjUyzWP1XqNsofrX24tVAMUEFfqPl_UIG_EdTjn8QSGXc8pskEs74hSmEnAPGSfw_DZeGFJ5_qHCMvsqCeLoP3NpXa6W9fGibm-fwwOOpsR-pRrKj-mkzpIyneAGuVFa884UTpS64UG9HklowTBMEiJKv9KTSS4rWsyTqfpc5je9R6g0pqxTeX9M",
+
+    "token_type": "bearer",
+
+    "expires_in": 31535999,
+
+    "AppId": "lakshyaguptaApp",
+
+    ".issued": "Mon, 20 Jun 2022 05:55:16 GMT",
+
+    ".expires": "Tue, 20 Jun 2023 05:55:16 GMT"
+
+}
+
+ 
+
+ 
+
+For Other API :
+
+ 
+
+POST https://stagingtradingoapi.swastika.co.in/api/User/SimplifiedLogin
+
+Request Headers:
+
+Authorization: Bearer KoPInr2W5xuiWiwejJTo_XGz4YNJF0SGjy6K56SCIWszt1mhWefZjUyzWP1XqNsofrX24tVAMUEFfqPl_UIG_EdTjn8QSGXc8pskEs74hSmEnAPGSfw_DZeGFJ5_qHCMvsqCeLoP3NpXa6W9fGibm
+
+AppId: lakshyaguptaApp
+
+version: 1
+
+Content-Type: text/plain
+
+ 
+
+ 
+
+Request Body:
+
+<encrypted string json>
+
+ 
+
+Response Body:
+
+When Succes:
+
+{
+
+    "Status": "OK",
+
+    "ErrorMessage": "",
+
+    "Data": <encrypted json>,
+
+    "Timestamp": "2022-02-01T12:43:55.534"
+
+}
+
+ 
+
+ 
+
+When Error:
+
+{"Status":"ERROR","ErrorMessage":"Image Does Not Exist","Data":null,"Timestamp":"2021-09-29T09:14:59.011"}
+
+ 
+
+AES Everywhere - Encryption Library - For Python:
+
+https://github.com/mervick/aes-everywhere/tree/master/python

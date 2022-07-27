@@ -1,0 +1,11 @@
+document.getElementById('sign_up_user').addEventListener('click',function(){
+    location.href='./signup';
+})
+document.getElementById('login_user').addEventListener('click',function(){
+    location.href='./signup';
+})
+document.querySelector('.submit_custom').addEventListener('click',function(e){
+    e.preventDefault();
+    document.getElementById('custom_form').style.display="none";
+    document.getElementById('msg_custom').style.opacity=1;
+})

@@ -1,0 +1,138 @@
+:root {
+    --clr-gray-light: #d7dfe2;
+    --clr-gray-lightmed: #a2a9ab;
+    --clr-gray-med: #616b74;
+    --clr-gray-dark: #414b56;
+    --clr-primary: #2460fc;
+}
+* {
+    box-sizing: border-box;
+    font-family: "Noto Sans", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+/* svg {
+    display: block;
+    position: fixed;
+    left: 0;
+} */
+/* path {
+    fill: var(--clr-primary);
+} */
+.wave-top {
+    top: 0;
+}
+.wave-bottom {
+    bottom: 0;
+}
+/* body {
+    margin: 2rem;
+    color: var(--clr-gray-med);
+} */
+.wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.card {
+    box-shadow: 0px 2px 10px var(--clr-gray-lightmed);
+    background: white;
+    border-radius: 0.25rem;
+    position: relative;
+    min-width: 350px;
+    margin: 1rem;
+    text-align: center;
+    transition: 500ms all ease-in-out;
+    cursor: pointer;
+}
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 2px 20px var(--clr-gray-lightmed);
+}
+.card-banner {
+    border-bottom: 1px solid var(--clr-gray-light);
+    padding: 4rem 0 2rem;
+}
+.card-banner .plan-tag {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--clr-gray-dark);
+    background: var(--clr-gray-light);
+    padding: 0.5rem 1rem;
+    text-transform: uppercase;
+    position: absolute;
+    z-index: 1;
+    top: 1rem;
+    left: 1rem;
+    border-radius: 0.25rem;
+}
+.card-banner .highlight {
+    color: white;
+    background: var(--clr-primary);
+}
+.card-banner .plan-price {
+    display: inline-block;
+}
+.card-banner .price {
+    font-size: 4.5rem;
+    position: relative;
+    margin-bottom: -0.5rem;
+    color: var(--clr-gray-dark);
+}
+.card-banner .price::before {
+    content: "$";
+    display: inline-block;
+    font-size: 2rem;
+    top: 0.8rem;
+    position: absolute;
+    text-align: left;
+    left: -1.5rem;
+}
+.card-banner .price-month {
+    font-size: 0.9rem;
+}
+.card-body {
+    margin: 2rem 0;
+}
+.card-body .plan-name {
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.4rem;
+    margin-bottom: 1rem;
+}
+.card-body .plan-feature-list {
+    margin: 2rem 4rem;
+    list-style: none;
+}
+.card-body .plan-feature {
+    font-size: 0.9rem;
+    margin: 1.5rem 0;
+    text-align: left;
+}
+.card-body .plan-feature::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 1.3rem;
+    content: "\f058";
+    color: var(--clr-gray-lightmed);
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    margin-right: 1rem;
+}
+.btn-card {
+    width: 250px;
+    color: var(--clr-primary);
+    padding: 1rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    border: 2px solid var(--clr-primary);
+    background: white;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: 500ms all ease-in-out;
+}
+.card:hover .btn-card {
+    background: var(--clr-primary);
+    color: white;
+}

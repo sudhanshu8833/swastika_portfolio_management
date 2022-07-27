@@ -1,0 +1,7 @@
+parameters,Data
+TSL_factor,1
+ATR_period,14
+amount_invest,10000
+stock,TCS
+stock_token,11536
+time_frame,FIFTEEN_MINUTE

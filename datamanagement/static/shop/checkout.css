@@ -1,0 +1,42 @@
+html{
+    background-color: #2a2b3d;
+    color: wheat;
+}
+body{
+    margin: auto;
+    width: 50%;
+    background: #3e3e55;
+    padding: 25px;
+    border-radius: 15px;
+}
+.head{
+    text-align: center;
+    margin: auto;
+}
+.head img{
+    position: relative;
+    top: 8px;
+}
+.cart-element{
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px;
+    color: rgb(49, 49, 44);
+    background-color: rgb(170, 169, 194);
+}
+.cart-element h2,h1{
+    text-align: center;
+}
+.btn{
+    background-color: rgb(143, 148, 223);
+    width: 150px;
+    height: 40px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+}
+.btn:hover{
+   cursor: pointer;
+   color: rgb(109, 102, 102);
+}
+
