@@ -1,9 +1,9 @@
 
 import yfinance as yf
-
+import logging
+logger=logging.getLogger('dev_log')
 
 def my_scheduled_job():
-    df=yf.download("MSFT",period='1mo',interval='5m')
-    df.to_csv("testing.csv")
     print("Hello its working, my friend")
+    logger.info("we have started logging... hurray!!")
 

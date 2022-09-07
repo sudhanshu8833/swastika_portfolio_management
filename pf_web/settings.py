@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
+import logging
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,12 +25,14 @@ SECRET_KEY = '_k091si(bm@c$^rka3008*y&!ay(+(vv$bmb3r^2yy&a%b5y1w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["143.244.141.118", '127.0.0.1', 'localhost', "*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+
+    'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,8 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'datamanagement',
-    'django_crontab',
-    'django_cron',
+
+
 ]
 
 MIDDLEWARE = [
@@ -85,7 +87,7 @@ DATABASES = {
 
 # my scheduled job
 CRONJOBS = [
-    ('*/1 * * * *', 'datamanagement.cron.my_scheduled_job', os.path.join(BASE_DIR, 'log/logs.log'))
+    ('*/1 * * * *', 'datamanagement.cron.my_scheduled_job')
 ]
 
 # Password validation
@@ -125,3 +127,84 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR,'log/info.log'),
+        },
+
+        'info': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR,'log/dev.log'),
+            'formatter':'verbose'
+        }
+
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+
+        'dev_log': {
+            'handlers': ['info'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+
+    },
+}
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': True,
+#     'formatters': {
+#         'verbose': {
+#             'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+#             'style': '{',
+#         },
+#         'simple': {
+#             'format': '{levelname} {message}',
+#             'style': '{',
+#         },
+#     },
+
+#     'handlers': {
+
+#         'info': {
+#             'level': 'INFO',
+#             'class': 'logging.handlers.RoatatingFileHandler',
+#             'filename':os.path.join(BASE_DIR,'log/info.log'),
+#             'formatter':'verbose',
+#             'encoding':'utf-8'
+#         }
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console','info'],
+#             'propagate': True,
+#             'level':'INFO'
+#         }
+#     }
+# }

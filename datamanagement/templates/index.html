@@ -15,7 +15,7 @@
 	<meta name="format-detection" content="telephone=no">
 	
 	<!-- PAGE TITLE HERE -->
-	<title>Dompet : Payment Admin Template</title>
+	<title>Algo99</title>
 	{% load static %}
 	<!-- FAVICONS ICON -->
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
@@ -153,7 +153,7 @@
   
   
               <li>
-                <a href="/data/add_api" class="ai-icon" aria-expanded="false">
+                <a href="/data/order" class="ai-icon" aria-expanded="false">
                   <i class="flaticon-381-key"></i>
                   <span class="nav-text">Orders</span>
                 </a>
@@ -192,6 +192,11 @@
                             </div>
                             <div class="card-body" >
                                 <div class="basic-form" >
+
+                                  <div class="col-sm-10">
+                                    <button class="btn btn-primary" onclick="url_call('/data/data_calculation')">data calculation</button>
+                                  </div>
+
                                     <form action="/data/start_strategy/" method="post">
                                       {% csrf_token %}
                                         <div class="mb-3 row">
@@ -265,7 +270,6 @@
                                                           100
                                                       </label>
                                                   </div>
-
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -282,9 +286,21 @@
                                         </div>
                                         <div class="mb-3 row">
                                             <div class="col-sm-10">
-                                                <button type="submit" class="btn btn-primary">Start the strategy</button>
+                                                <button type="submit" name ="action" value="button" class="btn btn-primary">Start the strategy</button>
                                             </div>
+
+
+
                                         </div>
+
+                                        <div class="mb-3 row">
+                                          <div class="col-sm-10">
+                                              <button type="submit" name="action" value="review" class="btn btn-primary">Review order (market)</button>
+                                          </div>
+
+                                      </div>
+
+
                                     </form>
                                 </div>
                             </div>

@@ -15,14 +15,14 @@
 	<meta name="format-detection" content="telephone=no">
 	
 	<!-- PAGE TITLE HERE -->
-	<title>Dompet : Payment Admin Template</title>
+	<title>Algo99</title>
 	{% load static %}
 	<!-- FAVICONS ICON -->
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
     <!-- Custom Stylesheet -->
 	<link href="vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.8.0/htmx.min.js" integrity="sha512-pAiuCmE/l23W+pUbrRbAvtaQnu8Opglr+TAsbNrTaxeyOimIch50OhJ+oa1cllrLJkUudO3H1d2zEmWvYcmbQw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
       .logged-in {
   color: rgb(22, 236, 22);
@@ -49,9 +49,9 @@
     <!--*******************
         Preloader start
     ********************-->
-    <div id="preloader">
+    <!-- <div id="preloader">
         <div class="waviy">
-		   <span style="--i:1">L</span>
+		   <span style="--i:1">L</span>   
 		   <span style="--i:2">o</span>
 		   <span style="--i:3">a</span>
 		   <span style="--i:4">d</span>
@@ -62,7 +62,7 @@
 		   <span style="--i:9">.</span>
 		   <span style="--i:10">.</span>
 		</div>
-    </div>
+    </div> -->
     <!--*******************
         Preloader end
     ********************-->
@@ -157,7 +157,7 @@
                 </div>
               </li>
               <li>
-                <a href="/index" class="ai-icon" aria-expanded="false">
+                <a href="/data/index" class="ai-icon" aria-expanded="false">
                   <i class="flaticon-025-dashboard"></i>
                   <span class="nav-text mm-show">Dashboard</span>
                 </a>
@@ -177,21 +177,21 @@
   
   
               <li>
-                <a href="/add_api" class="ai-icon" aria-expanded="false">
+                <a href="/data/order" class="ai-icon" aria-expanded="false">
                   <i class="flaticon-381-key"></i>
                   <span class="nav-text">Orders</span>
                 </a>
               </li>
   
               <li>
-                <a href="https://tv-2-broker.web.app/" class="ai-icon" aria-expanded="false">
+                <a href="/data/position" class="ai-icon" aria-expanded="false">
                   <i class="flaticon-381-notepad"></i>
                   <span class="nav-text">Present Position</span>
                 </a>
               </li>
   
               <li>
-                <a href="/handleLogout" class="ai-icon" aria-expanded="false">
+                <a href="/data/position" class="ai-icon" aria-expanded="false">
                   <i class="flaticon-381-compass-1"></i>
                   <span class="nav-text">Logout</span>
                 </a>
@@ -216,6 +216,8 @@
 					</ol>
                 </div>
                 <!-- row -->
+
+                <div id="get-data" hx-get="/get-current-price/" hx-trigger="every 2s" hx-swap="innerhtml">
                 {% for position_list in list %}
             
                     <div class="col-lg-12">
@@ -234,6 +236,7 @@
                                                 <th style="color: rgb(0, 0, 0);"><strong>SYMBOL</strong></th>
                                                 <th style="color: rgb(0, 0, 0);"><strong>TIME-IN</strong></th>
                                                 <th style="color: rgb(0, 0, 0);"><strong>PRICE-IN</strong></th>
+                                                <th style="color: rgb(0, 0, 0);"><strong>CURRENT</strong></th>
                                                 <th style="color: rgb(0, 0, 0);"><strong>SIDE</strong></th>
                                                 <th style="color: rgb(0, 0, 0);"><strong>PRICE-OUT</strong></th>
                                                 <th style="color: rgb(0, 0, 0);"><strong>TIME-OUT</strong></th>
@@ -246,8 +249,9 @@
                                             <tr>
                                                 <td><strong>#</strong></td>
                                                 <td style="color: rgb(68, 207, 68);">{{ position.symbol }}</td>
-                                                <td style="color: rgb(0, 0, 0);">{{ position.time_in.isoformat }}</td>
+                                                <td style="color: rgb(0, 0, 0);">{{ position.time_in }}</td>
                                                 <td style="color: rgb(0, 0, 0); font-weight: bold;">{{ position.price_in }}</td>
+                                                <td style="color: rgb(0, 0, 0); font-weight: bold;">{{ position.current_price }}</td>
                                                 {% if 'LONG' in position.side %}
                                                 <td style="color: rgb(56, 224, 70); font-weight: bold;">{{ position.side }}</td>
                                                 {% endif %}
@@ -257,7 +261,7 @@
                                                 {% endif %}
 
                                                 <td style="color: rgb(0, 0, 0);">{{ position.price_out }}</td>
-                                                <td style="color: rgb(0, 0, 0);">{{ position.time_out.isoformat }}</td>
+                                                <td style="color: rgb(0, 0, 0);">{{ position.time_out }}</td>
                                                 <td>
 													<div class="dropdown">
 														<button type="button" class="btn btn-success light sharp" data-bs-toggle="dropdown">
@@ -290,6 +294,8 @@
                     </div>
                    
                     {% endfor %}
+
+                  </div>
                 </div>
             </div>
             

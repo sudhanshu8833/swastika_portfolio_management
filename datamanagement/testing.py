@@ -2,41 +2,63 @@
 import yfinance as yf
 import math
 import pandas as pd
-import time
+import time as tim
 from smartapi import SmartConnect
 from smartapi import SmartWebSocket
 import traceback
 import requests
 import telepot
 
-obj = SmartConnect(api_key="uWbpZyYm")
-data = obj.generateSession("S776051", "Madhya246###")
-refreshToken = data['data']['refreshToken']
-feedToken = obj.getfeedToken()
-userProfile = obj.getProfile(refreshToken)
+from datetime import time,datetime
+from pytz import timezone 
 
-def this_scripts():
+# print(datetime.now(timezone("Asia/Kolkata")).time())
 
-    url="https://margincalculator.angelbroking.com/OpenAPI_File/files/OpenAPIScripMaster.json"
-    data=requests.get(url=url)
-    data=data.json()
-    df = pd.DataFrame(data)
+# if time(9,14)<=datetime.now(timezone("Asia/Kolkata")).time():
+#     print("ji")
 
-    df1=pd.DataFrame()
+# else:
+#     print("lets see")
 
-    df1=df[:1]
-    print(df1)
+# FEED_TOKEN=feedToken
+# CLIENT_CODE="S776051"
+# # token="mcx_fo|224395"
+# token="nse_cm|2885&nse_cm|1594&nse_cm|11536&nse_cm|3045"    #SAMPLE: nse_cm|2885&nse_cm|1594&nse_cm|11536&nse_cm|3045
+# # token="mcx_fo|226745&mcx_fo|220822&mcx_fo|227182&mcx_fo|221599"
+
+# task="mw"   # mw|sfi|dp
+
+# ss = SmartWebSocket(FEED_TOKEN, CLIENT_CODE)
+
+# # bot.sendMessage(1039725953,"websocket connection is being stablished")
+# times=time.time()
+# def on_message(ws, message):
 
 
-    for i in range(len(df)):
-        print(i)
 
-        if 'NIFTY' in df['symbol'][i][:6] and 'NFO' in df['exch_seg'][i]:
-            df1.loc[len(df1.index)] = df.loc[i] 
-        else:
-            continue
-    print(df)
+#     print(message)
+#     if time.time()>times+5:
+#         ws.on_close(ws)
+#         # self.ltp_nifty_options(message,token_dict,dict_token)
+#         # self.main(token_dict, dict_token,ws)
 
-    df1.to_csv("scripts.csv")
 
-this_scripts()
+# def on_open(ws):
+#     print("on open")
+#     ss.subscribe(task,token)
+    
+# def on_error(ws, error):
+#     print(error)
+    
+# def on_close(ws):
+#     print("#################")
+#     return False
+
+# # Assign the callbacks.
+# ss._on_open = on_open
+# ss._on_message = on_message
+# ss._on_error = on_error
+# ss._on_close = on_close
+
+# ss.connect()
+

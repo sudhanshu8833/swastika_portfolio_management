@@ -1,0 +1,23 @@
+.statistics {
+	color: var(--dk-gray-200);
+    height: auto;
+}
+
+.statistics .box {
+	background-color: var(--dk-dark-bg);
+}
+
+.statistics .box i {
+	width: 60px;
+	height: 60px;
+	line-height: 60px;
+}
+
+.statistics .box p {
+	color: var(--dk-gray-400);
+}
+.referal{
+    border: 1px solid;
+  padding: 10px;
+  box-shadow: 5px 10px #888888;
+}

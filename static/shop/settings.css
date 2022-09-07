@@ -1,0 +1,183 @@
+/* Base
+––––––––––––––––––––––––––––––––––––––––––––––*/
+html {
+    font-size: 62.5%;
+  }
+  
+  body {
+    font-family: -apple-system, Helvetica Neue, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1;
+    color: #333;
+    background: #f8f8f9;
+  }
+  
+  h1 {
+    font-size: 3.2rem;
+    line-height: 3.6rem;
+    margin-bottom: 2.4rem;
+    font-weight: 700;
+    text-align: center;
+    display: block;
+  }
+  
+  .container {
+    max-width: 80rem;
+    margin: 2rem auto 0;
+    padding: 0 1.2rem;
+  }
+  
+  /* Form
+  ––––––––––––––––––––––––––––––––––––––––––––––*/
+  .form-section {
+    display: block;
+    border: solid 1px #e5e5ea;
+    border-radius: 4px;
+    max-width: 672px;
+    margin: 0 auto 3.2rem;
+    background: #fff;
+    border-bottom: solid 1px #eee;
+  }
+  
+  .form-section-heading {
+    font-size: 1.9rem;
+    color: #1f1f21;
+    line-height: 2.4rem;
+    font-weight: 500;
+    display: block;
+    padding: 2rem 2.4rem;
+    border-bottom: solid 1px #eee;
+  }
+  
+  .field-wrap {
+    border: solid 1px transparent;
+    margin: -1px;
+  }
+  
+  .field-wrap:hover,
+  .field-wrap:focus-within {
+    z-index: 99;
+    position: relative;
+    margin: -1px;
+  }
+  
+  .field-wrap:hover {
+    border: solid 1px #bdbec2;
+    z-index: 9999;
+    position: relative;
+    margin: -1px;
+  }
+  
+  .field-wrap:focus-within {
+    border: solid 1px hsla(241, 61%, 59%, 1);
+    box-shadow: 0 0 3px 3px hsla(241, 61%, 59%, 0.1);
+  }
+  
+  .field {
+    display: flex;
+    margin-left: 2.4rem;
+    margin-bottom: -1px;
+    border-bottom: solid 1px #eee;
+    align-items: center;
+  }
+  
+  .field-wrap:hover .field,
+  .field:focus-within {
+    border-bottom: solid 1px transparent;
+  }
+  
+  .field-wrap:last-child:hover,
+  .field-wrap:last-child:focus-within {
+    border-radius: 0 0 4px 4px;
+  }
+  
+  .label {
+    font-size: 1.4rem;
+    color: #5b5b5b;
+    line-height: 2rem;
+    width: 18rem;
+    word-break: keep-all;
+    position: absolute;
+    display: block;
+  }
+  
+  .helper-text {
+    display: block;
+    font-size: 1.3rem;
+    color: #737399;
+  }
+  
+  .input,
+  .select {
+    width: 100%;
+    padding: 20px 20px 20px 200px;
+    border: 0;
+    font-size: 1.4rem;
+    line-height: 2rem;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: none;
+    position: relative;
+    z-index: 99;
+  }
+  
+  .select {
+    color: hsla(241, 61%, 59%, 1);
+    background: url(../images/chevron.svg) no-repeat;
+    background-position: right 20px center;
+  }
+  
+  .input:focus,
+  .select:focus {
+    outline: none;
+  }
+  
+  /* Responsive
+  ––––––––––––––––––––––––––––––––––––––––––––––*/
+  @media only screen and (max-width: 600px) {
+    
+    .helper-text {
+      display: inline;
+      margin-left: 4px;
+    }
+  
+    .field {
+      display: block;
+    }
+  
+    .label {
+      width: 100%;
+      position: relative;
+      display: block;
+      margin-top: 12px;
+      font-size: 1.3rem;
+    }
+  
+    .input,
+    .select {
+      display: block;
+      padding: 6px 12px 12px 0;
+    }
+    
+  }
+
+  #user-img{
+      height: 115px;
+      width: 115px;
+      text-align: center;
+      margin: 25px 250px;
+  }
+  .btn{
+      width: 100px;
+      background-color: rgb(211, 100, 81);
+      border: none;
+      border-radius: 25px;
+      color: azure;
+      padding: 10px;
+      margin: auto 75px;
+  }
+  .btn:hover{
+      cursor: pointer;
+      color: rgb(61, 61, 61);
+  }
+

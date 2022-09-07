@@ -49,6 +49,8 @@ class strategy(models.Model):
     ET=models.FloatField(default=0)
     v_factor=models.FloatField(default=0)
 
+    # sleep_time=models.IntegerField(default=0)
+
 class orders(models.Model):
 
     strategy_id=models.CharField(max_length=20)
@@ -66,7 +68,7 @@ class positions(models.Model):
     time_in=models.DateTimeField(auto_now_add = True)
     price_in=models.FloatField(default=0)
     side = models.CharField(max_length=20,default='NA')
-
+    current_price=models.FloatField(default=0)
     time_out=models.DateTimeField(default=0)
     price_out=models.FloatField(default=0)
     status=models.CharField(max_length=20,default='NA')
