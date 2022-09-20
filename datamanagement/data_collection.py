@@ -39,9 +39,7 @@ class run_strategy():
                 tim.sleep(1)
 
     def ltp_nifty_options(self,token_dict,dict_token):
-
-        
-
+        tim.sleep(.5)
 
         position_opened = positions.objects.filter(status='OPEN')
         positions_opened=[]

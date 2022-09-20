@@ -224,7 +224,7 @@
                         <div class="card">
                             <div class="card-header">
   
-                                <h4 class="card-title">strategy-id: {{ j }} </h4>
+                                <h4 class="card-title">strategy-id: {{ position_list.0.strategy_id }} </h4>
                                 <span class="logged-in blink_me" style="font-size: 40px; color: red;">●</span>
                             </div>
                             <div class="card-body">
@@ -277,7 +277,23 @@
      
                                             </tr>
 											{% endfor %}
-											
+                      
+                      {% for listss in strategy_id %}
+
+                      {% if position_list.1.strategy_id == listss.strategy_id %}
+
+                        <h4>Nifty price -     {{ listss.nifty_current }}</h4>
+                        <h4>Buy Nifty price - {{ listss.buy_nifty }}</h4>
+                        <h4>V-factor -        {{ listss.v_factor }}</h4>
+                        <h4>pnl - {{ listss.pnl }}</h4>
+                        <h4>T1 - {{ listss.T1 }}</h4>
+                        <h4>T2 - {{ listss.T2 }}</h4>
+                        <h4>T3 - {{ listss.T3 }}</h4>
+                        <h4>T4 - {{ listss.T4 }}</h4>
+                        <h4>T5 - {{ listss.T5 }}</h4>
+                      {% endif %}
+
+                      {% endfor %}
                                         </tbody>
 
                                              

@@ -185,7 +185,7 @@
 
         <div class="content-body" style="padding: 0px;">
           <div class="container-fluid" style="padding: 10%;">
-					<div class="col-xl-6 col-lg-12" style="width: 100%; height: 1000px;">
+					<div class="col-xl-6 col-lg-12" style="width: 100%; height: 2000px;">
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Start Details</h4>
@@ -196,9 +196,15 @@
                                   <div class="col-sm-10">
                                     <button class="btn btn-primary" onclick="url_call('/data/data_calculation')">data calculation</button>
                                   </div>
-
+                                  <!-- <h4></h4> -->
                                     <form action="/data/start_strategy/" method="post">
                                       {% csrf_token %}
+                                      <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Nifty price</label>
+                                        <div class="col-sm-9">
+                                            <h4 style="color: rgb(90, 215, 247);">{{ nifty }}</h4>
+                                        </div>
+                                      </div>
                                         <div class="mb-3 row">
                                             <label class="col-sm-3 col-form-label">Buy Factor</label>
                                             <div class="col-sm-9">

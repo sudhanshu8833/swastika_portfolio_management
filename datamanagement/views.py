@@ -27,24 +27,27 @@ def data_calculation(request):
     print("#############")
 
     logger.info("updated the system")
-    # t = threading.Thread(target=working_day_calculation, args=[0])
-    # t.setDaemon(True)
-    # t.start()
-
+    t = threading.Thread(target=working_day_calculation, args=[0])
+    t.setDaemon(True)
+    t.start()
+    
     user = User1.objects.get(username='testing')
 
     t = threading.Thread(target=do_something_1, args=[user])
     t.setDaemon(True)
     t.start()
 
-    print("#############")
+    print("#############")  
     return render(request, "index.html")
 
 
 def index(request):
-
+    with open('datamanagement/data.json') as data_file:
+        data = json.load(data_file)
     logger.info("we have started logging... hurray!!")
-    return render(request, "index.html")
+    return render(request, "index.html",{
+        "nifty":data['26000']
+    })
 
 
 
@@ -55,6 +58,7 @@ def index(request):
 def position(request):
 
     strategies = strategy.objects.filter(status="OPEN")
+    user = User1.objects.get(username="testing")
     lists = []
     strategy_id = []
 
@@ -69,11 +73,12 @@ def position(request):
             print("$$$$$$$$$$$$$$$$$$$$$$$$$$$")
 
         lists.append(position_list)
-        strategy_id.append(strategies[i].strategy_id)
+        strategy_id.append(strategies[i])
 
     return render(request, "position.html",    {
         'list': lists,
-        'strategy_id': strategy_id
+        'strategy_id': strategy_id,
+        'user':user
     })
 
 
@@ -82,6 +87,7 @@ def closed_positions(request):
     strategies = strategy.objects.filter(status="CLOSED")
     lists = []
     strategy_id = [] 
+    user = User1.objects.get(username="testing")
 
     for i in range(len(strategies)):
 
@@ -98,7 +104,8 @@ def closed_positions(request):
 
     return render(request, "closed_position.html",    {
         'list': lists,
-        'strategy_id': strategy_id
+        'strategy_id': strategy_id,
+        'user':user
     })
 
 

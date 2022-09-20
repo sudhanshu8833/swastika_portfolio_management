@@ -1,64 +1,72 @@
-# from .models import *
-import yfinance as yf
-import math
-import pandas as pd
-import time as tim
+from AesEverywhere import aes256
+import json
+from aiohttp import payload
+import requests
 from smartapi import SmartConnect
 from smartapi import SmartWebSocket
-import traceback
-import requests
-import telepot
 
-from datetime import time,datetime
-from pytz import timezone 
+# url="https://stagingtradingoapi.swastika.co.in/token"
 
-# print(datetime.now(timezone("Asia/Kolkata")).time())
+# body={
+#     "grant_type": "password",
 
-# if time(9,14)<=datetime.now(timezone("Asia/Kolkata")).time():
-#     print("ji")
+# "username": "lakshyaguptaApp",
 
-# else:
-#     print("lets see")
+# "password": "lakshyaguptaApp@01734",
 
-# FEED_TOKEN=feedToken
-# CLIENT_CODE="S776051"
-# # token="mcx_fo|224395"
-# token="nse_cm|2885&nse_cm|1594&nse_cm|11536&nse_cm|3045"    #SAMPLE: nse_cm|2885&nse_cm|1594&nse_cm|11536&nse_cm|3045
-# # token="mcx_fo|226745&mcx_fo|220822&mcx_fo|227182&mcx_fo|221599"
+# "version": "1"
+# }
 
-# task="mw"   # mw|sfi|dp
-
-# ss = SmartWebSocket(FEED_TOKEN, CLIENT_CODE)
-
-# # bot.sendMessage(1039725953,"websocket connection is being stablished")
-# times=time.time()
-# def on_message(ws, message):
+obj = SmartConnect(api_key='NuTmF22y')
+data = obj.generateSession("Y99521", "abcd@1234")
+refreshToken = data['data']['refreshToken']
+feedToken = obj.getfeedToken()
+print(refreshToken)
+headers = {'content-type': 'application/x-www-form-urlencoded'}
 
 
 
-#     print(message)
-#     if time.time()>times+5:
-#         ws.on_close(ws)
-#         # self.ltp_nifty_options(message,token_dict,dict_token)
-#         # self.main(token_dict, dict_token,ws)
+
+# for getting accesstoken
+# resonse=requests.post(url,data=body)
+# print(resonse.json())
 
 
-# def on_open(ws):
-#     print("on open")
-#     ss.subscribe(task,token)
-    
-# def on_error(ws, error):
-#     print(error)
-    
-# def on_close(ws):
-#     print("#################")
-#     return False
 
-# # Assign the callbacks.
-# ss._on_open = on_open
-# ss._on_message = on_message
-# ss._on_error = on_error
-# ss._on_close = on_close
+# for creating a session
+url="https://stagingtradingoapi.swastika.co.in/api/User/LoginTwoFA"
 
-# ss.connect()
+body={
+    "uid":"TDEMO2"
+}
 
+
+body=json.dumps(body)
+
+headers={
+    "Authorization":"Bearer orCLa-fYnm7jYpTzYARKZVt9CXZQfOYMUcm5lXaMTxgPVI-piJtgbY91f-fFYFzeLLk5RvcSOnhJ6nkx48TOdL0r0ClkzqBSrUUfdcRxmTXsHwk3Q2Bz3KiGMqFPoZMKdOG2VvHgix1GDZjd8gooK48oWa6EJlCqfK5zW2D8Drl_z9VxdTLqRyxUpeLL1OSW0dGP1gyuXF1f-QG3fFBLmCoY15hz9IulErxIKNUygj8",
+    "AppId":"lakshyaguptaApp",
+    "version":"1"
+}
+
+
+
+encrypted = aes256.encrypt(body, 'lakshyagupta@01734')
+
+decrypt=requests.post(url,data=encrypted,headers=headers)
+# print(decrypt.json())
+print(aes256.decrypt(decrypt.json()['Data'], 'lakshyagupta@01734'))
+
+
+# /api/PlaceOrder/PlaceOrder
+
+url="https://stagingtradingoapi.swastika.co.in/api/PlaceOrder/PlaceOrder"
+
+body={
+    "uid":"TDEMO2",
+    "actid":"TDEMO1",
+    "Tsym":"MSFT",
+    "exch":"NSE",
+    "Ttranstype":"B",
+    "Ret":""
+}

@@ -18,6 +18,7 @@ class User1(models.Model):
     working_days_2=models.IntegerField(default=0)
     expiry_1=models.CharField(default="NA",max_length=12)
     expiry_2=models.CharField(default="NA",max_length=12)
+    pnl=models.FloatField(default=0)
 
 
 class strategy(models.Model):
@@ -37,17 +38,23 @@ class strategy(models.Model):
     expiry_1=models.CharField(default="NA",max_length=12)
     expiry_2=models.CharField(default="NA",max_length=12)
 
+
     T1=models.FloatField(default=0)
     T2=models.FloatField(default=0)
     T3=models.FloatField(default=0)
     T4=models.FloatField(default=0)
     T5=models.FloatField(default=0)
-    T_now=models.IntegerField(default=3)
+    T_now=models.IntegerField(default=3) 
 
     expiry_selected=models.IntegerField(default=0)
     spot=models.FloatField(default=0)
     ET=models.FloatField(default=0)
     v_factor=models.FloatField(default=0)
+    pnl=models.FloatField(default=0)
+
+    nifty_current=models.FloatField(default=0)
+    buy_nifty=models.FloatField(default=0)
+    
 
     # sleep_time=models.IntegerField(default=0)
 
@@ -73,3 +80,4 @@ class positions(models.Model):
     price_out=models.FloatField(default=0)
     status=models.CharField(max_length=20,default='NA')
     token=models.CharField(max_length=20,default='NA')
+    pnl=models.FloatField(default=0)

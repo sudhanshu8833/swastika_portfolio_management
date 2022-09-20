@@ -22,8 +22,8 @@
     <!-- Custom Stylesheet -->
 	<link href="vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.8.0/htmx.min.js" integrity="sha512-pAiuCmE/l23W+pUbrRbAvtaQnu8Opglr+TAsbNrTaxeyOimIch50OhJ+oa1cllrLJkUudO3H1d2zEmWvYcmbQw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.8.0/htmx.min.js" integrity="sha512-pAiuCmE/l23W+pUbrRbAvtaQnu8Opglr+TAsbNrTaxeyOimIch50OhJ+oa1cllrLJkUudO3H1d2zEmWvYcmbQw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    <style>
       .logged-in {
   color: rgb(22, 236, 22);
 }
@@ -71,6 +71,7 @@
     <!--**********************************
         Main wrapper start
     ***********************************-->
+    
     <div id="main-wrapper">
 
         <!--**********************************
@@ -212,19 +213,22 @@
 				<div class="row page-titles">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item active"><a href="javascript:void(0)">Strategy-id</a></li>
-						<li class="breadcrumb-item"><a href="javascript:void(0)">Bootstrap</a></li>
+
+						<li class="breadcrumb-item"><a href="javascript:void(0)"> total pnl - {{ user.0.pnl }}</a></li>
 					</ol>
                 </div>
                 <!-- row -->
-
-                <div id="get-data" hx-get="/get-current-price/" hx-trigger="every 2s" hx-swap="innerhtml">
+                
+                
                 {% for position_list in list %}
-            
+                
+
+                
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-  
-                                <h4 class="card-title">strategy-id: {{ j }} </h4>
+                              
+                                <h4 class="card-title">strategy-id: {{ position_list.0.strategy_id }} </h4>
                                 <span class="logged-in blink_me" style="font-size: 40px;">●</span>
                             </div>
                             <div class="card-body">
@@ -237,6 +241,7 @@
                                                 <th style="color: rgb(0, 0, 0);"><strong>TIME-IN</strong></th>
                                                 <th style="color: rgb(0, 0, 0);"><strong>PRICE-IN</strong></th>
                                                 <th style="color: rgb(0, 0, 0);"><strong>CURRENT</strong></th>
+                                                <th style="color: rgb(0, 0, 0);"><strong>PNL</strong></th>
                                                 <th style="color: rgb(0, 0, 0);"><strong>SIDE</strong></th>
                                                 <th style="color: rgb(0, 0, 0);"><strong>PRICE-OUT</strong></th>
                                                 <th style="color: rgb(0, 0, 0);"><strong>TIME-OUT</strong></th>
@@ -252,6 +257,15 @@
                                                 <td style="color: rgb(0, 0, 0);">{{ position.time_in }}</td>
                                                 <td style="color: rgb(0, 0, 0); font-weight: bold;">{{ position.price_in }}</td>
                                                 <td style="color: rgb(0, 0, 0); font-weight: bold;">{{ position.current_price }}</td>
+
+                                                {% if position.pnl >= 0 %}
+                                                <td style="color: rgb(56, 224, 70); font-weight: bold;">{{ position.pnl }}</td>
+                                                {% endif %}
+
+                                                {% if position.pnl < 0 %}
+                                                <td style="color: rgb(223, 31, 31); font-weight: bold;">{{ position.pnl }}</td>
+                                                {% endif %}
+
                                                 {% if 'LONG' in position.side %}
                                                 <td style="color: rgb(56, 224, 70); font-weight: bold;">{{ position.side }}</td>
                                                 {% endif %}
@@ -276,8 +290,27 @@
 												</td>
      
                                             </tr>
-											{% endfor %}
 											
+											            
+                      {% endfor %}
+
+                      {% for listss in strategy_id %}
+
+                      {% if position_list.1.strategy_id == listss.strategy_id %}
+
+                        <h4>Nifty price -     {{ listss.nifty_current }}</h4>
+                        <h4>Buy Nifty price - {{ listss.buy_nifty }}</h4>
+                        <h4>V-factor -        {{ listss.v_factor }}</h4>
+                        <h4>pnl - {{ listss.pnl }}</h4>
+                        <h4>T1 - {{ listss.T1 }}</h4>
+                        <h4>T2 - {{ listss.T2 }}</h4>
+                        <h4>T3 - {{ listss.T3 }}</h4>
+                        <h4>T4 - {{ listss.T4 }}</h4>
+                        <h4>T5 - {{ listss.T5 }}</h4>
+                      {% endif %}
+
+                      {% endfor %}
+
                                         </tbody>
 
                                              
@@ -285,7 +318,7 @@
                                     
                                 </div>
                                 
-
+                                
                             </div>
                             
 
@@ -295,7 +328,8 @@
                    
                     {% endfor %}
 
-                  </div>
+                 
+     
                 </div>
             </div>
             

@@ -27,40 +27,72 @@ class run_strategy():
         self.times = tim.time()
         self.day = datetime.now(timezone("Asia/Kolkata")).day
         for i in range(100):
-            try:
+            # try:
                 self.obj = SmartConnect(api_key='NuTmF22y')
                 data = self.obj.generateSession("Y99521", "abcd@1234")
                 refreshToken = data['data']['refreshToken']
                 self.feedToken = self.obj.getfeedToken()
                 break
-            except Exception as e:
-                print(str(e))
-                time.sleep(1)
+            # except Exception as e:
+            #     print(str(e))
+            #     time.sleep(1)
 
     def ltp_nifty_options(self, token_dict, dict_token):
 
         position_opened = positions.objects.filter(
             strategy_id=str(self.parameters.strategy_id), status='OPEN')
 
+
+        total_pnl=0
+
+        total_positions = positions.objects.filter(status='OPEN')
+        total_pnls=0
+        for i in range(len(total_positions)):
+            total_pnls+=total_positions[i].pnl
+        user=User1.objects.get(username="testing")
+        user.pnl=total_pnls
+        user.pnl=round(user.pnl,2)
+        user.save()
+
         with open('datamanagement/data.json') as data_file:
             data = json.load(data_file)
         self.ltp_prices['26000'] = data['26000']
+
+        self.parameters.nifty_current=data['26000']
+        self.parameters.save()
+
 
         position_opened = positions.objects.filter(
             strategy_id=str(self.parameters.strategy_id), status='OPEN')
         print(position_opened.all())
         for i in range(len(position_opened)):
             try:
+                
                 with open('datamanagement/data.json') as data_file:
                     data = json.load(data_file)
                 self.ltp_prices[position_opened[i].token] = data[str(
                     position_opened[i].token)]
-                position_opened[i].current_price = float(
+
+                price_now=float(
                     self.ltp_prices[position_opened[i].token])
+                position_opened[i].current_price = price_now
+
+                if position_opened[i].side=="LONG":
+                    position_opened[i].pnl=((price_now-position_opened[i].price_in)/position_opened[i].price_in)*100
+                    position_opened[i].pnl=round(position_opened[i].pnl,2)
+                if position_opened[i].side=="SHORT":
+                    position_opened[i].pnl=((position_opened[i].price_in-price_now)/position_opened[i].price_in)*100
+                    position_opened[i].pnl=round(position_opened[i].pnl,2)
+                    
+                total_pnl+=position_opened[i].pnl
                 position_opened[i].save()
 
             except Exception:
                 print(traceback.format_exc())
+
+        self.parameters.pnl=total_pnl
+        self.parameters.pnl=round(self.parameters.pnl,2)
+        self.parameters.save()        
 
     def shift_position(self, nifty_price, token_dict, dict_token):
 
@@ -298,121 +330,124 @@ class run_strategy():
         strategy1.save()
 
     def market_order(self, nifty_price, v_factor, expiry, token_dict, dict_token, limit):
-        nifty_price = round(nifty_price/50, 0)*50
+            
+            nifty_price = round(nifty_price/50, 0)*50
 
-        symbol_buy_put = expiry+str(int(nifty_price+v_factor))+'PE'
-        symbol_buy_call = expiry+str(int(nifty_price-v_factor))+'CE'
+            symbol_buy_put = expiry+str(int(nifty_price+v_factor))+'PE'
+            symbol_buy_call = expiry+str(int(nifty_price-v_factor))+'CE'
 
-        symbol_sell_put = expiry + \
-            str(int(nifty_price+self.parameters.sell_factor))+'PE'
-        symbol_sell_call = expiry + \
-            str(int(nifty_price-self.parameters.sell_factor))+'CE'
-
-        with open('datamanagement/data.json') as data_file:
-            data = json.load(data_file)
-
-        # symbol_buy_put_price = data[token_dict[symbol_buy_put]]
-        # symbol_buy_call_price = data[token_dict[symbol_buy_call]]
-        # symbol_sell_put_price = data[token_dict[symbol_sell_put]]
-        # symbol_sell_call_price = data[token_dict[symbol_sell_call]]
-        symbol_buy_put_price =self.obj.ltpData("NFO",symbol_buy_put ,token_dict[symbol_buy_put])['data']['ltp']
-        symbol_buy_call_price = self.obj.ltpData("NFO",symbol_buy_call,token_dict[symbol_buy_call])['data']['ltp']
-        symbol_sell_put_price = self.obj.ltpData("NFO",symbol_sell_put,token_dict[symbol_sell_put])['data']['ltp']
-        symbol_sell_call_price = self.obj.ltpData("NFO",symbol_sell_call,token_dict[symbol_sell_call])['data']['ltp']
-
-
-        if limit.lower() == "on":
-            print("got into limit")
-            while True:
-                with open('datamanagement/data.json') as data_file:
-                    data = json.load(data_file)
-                time_start = tim.time()
-
-                price_put = data[token_dict[symbol_buy_put]]
-                price_call = data[token_dict[symbol_buy_call]]
-
-                print("^^^^^^^^^^^^")
-                print(price_put)
-                print(price_call)
-                print(self.parameters.time_out)
-                print("^^^^^^^^^^^^")
-
-                kem = 0
-                while tim.time() <= time_start+self.parameters.time_out:
-                    with open('datamanagement/data.json') as data_file:
-                        data = json.load(data_file)
-
-                    price_put_now = data[token_dict[symbol_buy_put]]
-                    price_call_now = data[token_dict[symbol_buy_call]]
-
-                    print("^^^^^^^^^^^^")
-                    print(price_put_now, price_put)
-                    print(price_call_now, price_call)
-                    print("^^^^^^^^^^^^")
-                    if price_put_now < price_put or price_call_now < price_call:
-                        kem = 1
-                        break
-
-                if kem == 1:
-                    break
-
-        if limit.lower() == "on":
+            symbol_sell_put = expiry + \
+                str(int(nifty_price+self.parameters.sell_factor))+'PE'
+            symbol_sell_call = expiry + \
+                str(int(nifty_price-self.parameters.sell_factor))+'CE'
 
             with open('datamanagement/data.json') as data_file:
                 data = json.load(data_file)
 
-            symbol_buy_put_price = data[token_dict[symbol_buy_put]]
-            symbol_buy_call_price = data[token_dict[symbol_buy_call]]
-            symbol_sell_put_price = data[token_dict[symbol_sell_put]]
-            symbol_sell_call_price = data[token_dict[symbol_sell_call]]
+            # symbol_buy_put_price = data[token_dict[symbol_buy_put]]
+            # symbol_buy_call_price = data[token_dict[symbol_buy_call]]
+            # symbol_sell_put_price = data[token_dict[symbol_sell_put]]
+            # symbol_sell_call_price = data[token_dict[symbol_sell_call]]
+            
+            symbol_buy_put_price =self.obj.ltpData("NFO",symbol_buy_put ,token_dict[symbol_buy_put])['data']['ltp']
+            symbol_buy_call_price = self.obj.ltpData("NFO",symbol_buy_call,token_dict[symbol_buy_call])['data']['ltp']
+            symbol_sell_put_price = self.obj.ltpData("NFO",symbol_sell_put,token_dict[symbol_sell_put])['data']['ltp']
+            symbol_sell_call_price = self.obj.ltpData("NFO",symbol_sell_call,token_dict[symbol_sell_call])['data']['ltp']
 
-        if self.parameters.status != "TEST":
-            p = self.add_positions(
-                symbol_buy_put, "LONG", symbol_buy_put_price, 0, 0, token_dict, dict_token)
-            p = self.add_positions(
-                symbol_buy_call, "LONG", symbol_buy_call_price, 0, 0, token_dict, dict_token)
-            p = self.add_positions(
-                symbol_sell_put, "SHORT", symbol_sell_put_price, 0, 0, token_dict, dict_token)
-            p = self.add_positions(
-                symbol_sell_call, "SHORT", symbol_sell_call_price, 0, 0, token_dict, dict_token)
 
-        p = self.add_orders(symbol_buy_put, "BUY",
-                            symbol_buy_put_price, True, token_dict, dict_token)
-        p = self.add_orders(symbol_buy_call, "BUY",
-                            symbol_buy_call_price, True, token_dict, dict_token)
-        p = self.add_orders(symbol_sell_put, "SELL",
-                            symbol_sell_put_price, True, token_dict, dict_token)
-        p = self.add_orders(symbol_sell_call, "SELL",
-                            symbol_sell_call_price, True, token_dict, dict_token)
+            if limit.lower() == "on":
+                print("got into limit")
+                while True:
+                    with open('datamanagement/data.json') as data_file:
+                        data = json.load(data_file)
+                    time_start = tim.time()
 
-        if self.parameters.status == "TEST":
-            data = orders.objects.filter(
-                strategy_id=self.parameters.strategy_id)
-            # data.delete()
-            self.parameters.delete()
-            return data
+                    price_put = self.obj.ltpData("NFO",symbol_buy_put ,token_dict[symbol_buy_put])['data']['ltp']
+                    price_call = self.obj.ltpData("NFO",symbol_buy_call,token_dict[symbol_buy_call])['data']['ltp']
 
-        print(self.parameters.T1)
-        self.parameters.T3 = nifty_price
-        self.parameters.T4 = self.parameters.spot + self.parameters.sell_factor + \
-            (self.parameters.v_factor-self.parameters.sell_factor) * \
-            (self.parameters.TP1/100)
-        self.parameters.T5 = self.parameters.spot + self.parameters.sell_factor + \
-            (self.parameters.v_factor-self.parameters.sell_factor) * \
-            (self.parameters.TP2/100)
-        self.parameters.T2 = self.parameters.spot - self.parameters.sell_factor - \
-            (self.parameters.v_factor-self.parameters.sell_factor) * \
-            (self.parameters.TP1/100)
-        self.parameters.T1 = self.parameters.spot - self.parameters.sell_factor - \
-            (self.parameters.v_factor-self.parameters.sell_factor) * \
-            (self.parameters.TP2/100)
-        print(self.parameters.T3)
-        print(self.parameters.T1)
-        print(self.parameters.T2)
-        print(self.parameters.T4)
-        print(self.parameters.T5)
-        self.parameters.save()
-        print(self.parameters.T1)
+                    print("^^^^^^^^^^^^")
+                    print(price_put)
+                    print(price_call)
+                    print(self.parameters.time_out)
+                    print("^^^^^^^^^^^^")
+
+                    kem = 0
+                    while tim.time() <= time_start+self.parameters.time_out:
+                        with open('datamanagement/data.json') as data_file:
+                            data = json.load(data_file)
+
+                        price_put_now = self.obj.ltpData("NFO",symbol_buy_put ,token_dict[symbol_buy_put])['data']['ltp']
+                        price_call_now = self.obj.ltpData("NFO",symbol_buy_call,token_dict[symbol_buy_call])['data']['ltp']
+
+                        print("^^^^^^^^^^^^")
+                        print(price_put_now, price_put)
+                        print(price_call_now, price_call)
+                        print("^^^^^^^^^^^^")
+                        if price_put_now < price_put or price_call_now < price_call:
+                            kem = 1
+                            break
+
+
+                    if kem == 1:
+                        break
+
+            if limit.lower() == "on":
+
+                with open('datamanagement/data.json') as data_file:
+                    data = json.load(data_file)
+
+                symbol_buy_put_price = self.obj.ltpData("NFO",symbol_buy_put ,token_dict[symbol_buy_put])['data']['ltp']
+                symbol_buy_call_price = self.obj.ltpData("NFO",symbol_buy_call,token_dict[symbol_buy_call])['data']['ltp']
+                symbol_sell_put_price = self.obj.ltpData("NFO",symbol_sell_put,token_dict[symbol_sell_put])['data']['ltp']
+                symbol_sell_call_price = self.obj.ltpData("NFO",symbol_sell_call,token_dict[symbol_sell_call])['data']['ltp'] 
+
+            if self.parameters.status != "TEST":
+                p = self.add_positions(
+                    symbol_buy_put, "LONG", symbol_buy_put_price, 0, 0, token_dict, dict_token)
+                p = self.add_positions(
+                    symbol_buy_call, "LONG", symbol_buy_call_price, 0, 0, token_dict, dict_token)
+                p = self.add_positions(
+                    symbol_sell_put, "SHORT", symbol_sell_put_price, 0, 0, token_dict, dict_token)
+                p = self.add_positions(
+                    symbol_sell_call, "SHORT", symbol_sell_call_price, 0, 0, token_dict, dict_token)
+
+            p = self.add_orders(symbol_buy_put, "BUY",
+                                symbol_buy_put_price, True, token_dict, dict_token)
+            p = self.add_orders(symbol_buy_call, "BUY",
+                                symbol_buy_call_price, True, token_dict, dict_token)
+            p = self.add_orders(symbol_sell_put, "SELL",
+                                symbol_sell_put_price, True, token_dict, dict_token)
+            p = self.add_orders(symbol_sell_call, "SELL",
+                                symbol_sell_call_price, True, token_dict, dict_token)
+
+            if self.parameters.status == "TEST":
+                data = orders.objects.filter(
+                    strategy_id=self.parameters.strategy_id)
+                # data.delete()
+                self.parameters.delete()
+                return data
+
+            print(self.parameters.T1)
+            self.parameters.T3 = nifty_price
+            self.parameters.T4 = self.parameters.spot + self.parameters.sell_factor + \
+                (self.parameters.v_factor-self.parameters.sell_factor) * \
+                (self.parameters.TP1/100)
+            self.parameters.T5 = self.parameters.spot + self.parameters.sell_factor + \
+                (self.parameters.v_factor-self.parameters.sell_factor) * \
+                (self.parameters.TP2/100)
+            self.parameters.T2 = self.parameters.spot - self.parameters.sell_factor - \
+                (self.parameters.v_factor-self.parameters.sell_factor) * \
+                (self.parameters.TP1/100)
+            self.parameters.T1 = self.parameters.spot - self.parameters.sell_factor - \
+                (self.parameters.v_factor-self.parameters.sell_factor) * \
+                (self.parameters.TP2/100)
+            print(self.parameters.T3)
+            print(self.parameters.T1)
+            print(self.parameters.T2)
+            print(self.parameters.T4)
+            print(self.parameters.T5)
+            self.parameters.save()
+
 
     def token_calculations(self, nifty_price, v_factor, expiry):
 
@@ -448,6 +483,9 @@ class run_strategy():
                 data = json.load(data_file)
 
             price_buy = data['26000']
+            self.parameters.buy_nifty=price_buy
+            self.parameters.save()
+
 
             # print(v_factor,price_buy)
             print(price_buy)
@@ -467,8 +505,13 @@ class run_strategy():
             token_dict, dict_token = self.token_calculations(
                 price_buy, v_factor, expiry)
 
-            data = self.market_order(
-                price_buy, v_factor, expiry, token_dict, dict_token, self.parameters.LIMIT)
+            for i in range(5):
+                try:
+                    data = self.market_order(price_buy, v_factor, expiry, token_dict, dict_token, self.parameters.LIMIT)
+                    break
+                except Exception:
+                    print(traceback.format_exc())
+                    continue
             if data != None:
 
                 return data
@@ -476,3 +519,4 @@ class run_strategy():
             return value
         except Exception:
             print(traceback.format_exc())
+            

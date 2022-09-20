@@ -26,7 +26,9 @@ from .models import *
 def this_scripts():
 
     url="https://margincalculator.angelbroking.com/OpenAPI_File/files/OpenAPIScripMaster.json"
+    print(url)
     data=requests.get(url=url)
+    print(url)
     data=data.json()
     df = pd.DataFrame(data)
 
