@@ -27,10 +27,10 @@ python3 manage.py runserver
 
 
 
-1. **Index page (main page)**
+### 1. Index page (main page)
 
 
-![Alt text](https://github.com/sudhanshu8833/Options-Trading-Bot-Angel-Broking-/blob/main/dashboard.png)
+![Alt text](https://github.com/sudhanshu8833/swastika_portfolio_management/blob/main/DOCUMNETS_ALGO/dashboard.png)
 
 
    - This should be accessible at `http://127.0.0.1:8000/data/index` if you are using local host
@@ -43,10 +43,10 @@ python3 manage.py runserver
 
 
 
-2. **current positions page**
+### 2. current positions page
 
 
-![Alt text](https://github.com/sudhanshu8833/Options-Trading-Bot-Angel-Broking-/blob/main/positions.png)
+![Alt text](https://github.com/sudhanshu8833/swastika_portfolio_management/blob/main/DOCUMNETS_ALGO/present_position.png)
 
   - available at `http://127.0.0.1:8000/data/position/` if you are running on local hosts
   - Details about all the open strategies are mentioned here.
@@ -54,7 +54,7 @@ python3 manage.py runserver
 
 
 
-3. **order history page**
+### 3. order history page
 
 
   - available at `http://127.0.0.1:8000/data/order` on local host.
@@ -106,7 +106,7 @@ python3 manage.py runserver
 | EXPIRY DATE  | N+SF   | PE          | P4      | M*1  |
 |              |        | P3 + P4     |         |      |
 
-### strategy explanation
+##### strategy explanation
 
 
 | PARTICULAR         | DESCRIPTION                                          | CALCULATION                                | SOURCE |
