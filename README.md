@@ -67,6 +67,22 @@ python3 manage.py runserver
 
 ### Details about Different Conditions that can arise in the market
 
+The table represents different trigger points (T1, T2, T3, etc.) along with their corresponding conditions and actions in a trading strategy. Here's an explanation of each row:
+
+T1: This trigger occurs when the Nifty level is less than or equal to the Spot Nifty minus (V multiplied by TP2). The action associated with this trigger is to square off all trades.
+
+T2: This trigger occurs when the Nifty level is less than or equal to the Spot Nifty minus ((V minus sellfactor) multiplied by TP1). The action associated with this trigger is to exit the strategy.
+
+T3: This trigger occurs when the Nifty level is equal to the Spot Nifty. The action associated with this trigger is to square off all sell trades.
+
+T4: This trigger occurs when the Nifty level is greater than or equal to the Spot Nifty plus ((V minus sell factor) multiplied by TP1). The actions associated with this trigger are: set S as the new spot nifty, execute CE S- strategy, and execute PE S+ strategy.
+
+T5: This trigger occurs when the Nifty level is greater than or equal to the Spot Nifty plus (V multiplied by TP2). If T2 or T4 is already triggered, the sell pair is restored to the original sell pair.
+
+T6: This trigger occurs when P3 divided by P4 is less than the ET value (manually entered by the admin, default 50). The actions associated with this trigger are: square off all sell trades, create a new sell pair at the new spot nifty (S), execute CE S- strategy, and execute PE S+ strategy.
+
+T7: This trigger represents a manual exit button. The action associated with this trigger is to square off all trades. Additionally, the user can select a desired set of pairs and square them off.
+
 | Trigger Point | Condition                                             | Action                                 |
 | ------------- | ----------------------------------------------------- | -------------------------------------- |
 | T1            | Nifty level <= Spot nifty - (V * TP2)                  | Square Off all trades                  |
