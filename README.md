@@ -120,15 +120,25 @@ T7: This trigger represents a manual exit button. The action associated with thi
 | MULTIPLICATION (M) | DROP DOWN LIST (0,1,2 - 100) |                    |
 
 DATE: This column represents the date, and "CURRENT DATE" refers to the current date.
+
 TIME: This column represents the time, and "CURRENT TIME" refers to the current time obtained through an API.
+
 INDEX: This column refers to a specific market index, which is not specified in the provided information. It could represent a stock index like the S&P 500 or any other relevant financial index.
+
 NIFTY: This column represents the NIFTY index. "CURRENT NIFTY" refers to the current value of the NIFTY index, obtained through calculations.
+
 SPOT NIFTY LVL (N): This column represents the spot level of the NIFTY index. The value is obtained through calculations.
+
 VIX: This column represents the VIX index, which is a measure of market volatility. "CURRENT VIX" refers to the current value of the VIX index.
+
 EXPIRY: This column represents the expiry date, which is not specified in the provided information.
+
 SELL PAIR FACTOR (SF): This column represents a factor for selling pairs, with options in the drop-down list being {0, 50, 100}.
+
 MULTIPLICATION (M): This column represents a multiplication factor, with options in the drop-down list being (0, 1, 2 - 100).
+
 Please note that some information, such as the specific market index and expiry date, is not provided in the given table.
+
 
 
 
