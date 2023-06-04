@@ -1,6 +1,6 @@
 # Swastika_Portfolio_management
 
-This Project Targets to compute multiple trading strategies parallely, this can be done efficiently through data sharing between different stratgies. The Strategy is a bit complicated to understand, therefore extensive details of the strategy has been given at the end.
+This Project Targets to compute multiple trading strategies parallely (threading), this can be done efficiently through data sharing between different stratgies. The Strategy is a bit complicated to understand, therefore extensive details of the strategy has been given at the end.
 
 This was a fullstack python project, which uses SWASTIKA Broker(for order execution) and Angel Broker(for data extraction)
 
