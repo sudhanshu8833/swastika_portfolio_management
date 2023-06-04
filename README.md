@@ -65,7 +65,30 @@ python3 manage.py runserver
 
 ## STRATEGY EXPLANATION
 
+
+### Admin Panel parameters
+
+| PARTICULAR | DESCRIPTION | DEFAULT | TYPE             |
+|------------|-------------|---------|------------------|
+| BF         | BUY FACTOR  | 300     | WHOLE NUMBER     |
+| A          | % PREMIUM   | 0.99    | FRACTION (FLOAT: 0 TO 1) |
+| t          | TIME        | 60      | SECONDS          |
+| TP1        | %           | 40      | NUMBER           |
+| TP2        | %           | 90      | NUMBER           |
+
+
 ### Details about Different Conditions that can arise in the market
+
+| Trigger Point | Condition                                             | Action                                 |
+| ------------- | ----------------------------------------------------- | -------------------------------------- |
+| T1            | Nifty level <= Spot nifty - (V * TP2)                  | Square Off all trades                  |
+| T2            | Nifty level <= Spot nifty - ((V - sellfactor) * TP1)  | STRATEGY EXIT                          |
+| T3            | Nifty level = Spot nifty                               | Square off all sell trades             |
+| T4            | Nifty level >= Spot nifty + ((V - sell factor) * TP1) | S = new spot nifty<br>CE S- strategy<br>PE S+ strategy |
+| T5            | Nifty level >= Spot nifty + (V * TP2)                  | If T2/T4 is already triggered<br>Then sell pair restored to original sell pair |
+| T6            | If P3/P4 < ET (ET is manually entered by admin, default 50) | Square off all sell trades and create new sell pair at new spot nifty<br>S = new spot nifty<br>CE S- strategy<br>PE S+ strategy |
+| T7            | Manual exit button                                    | Square Off all trades<br>Select desired set of pair and square off |
+
 
 The table represents different trigger points (T1, T2, T3, etc.) along with their corresponding conditions and actions in a trading strategy. Here's an explanation of each row:
 
@@ -83,17 +106,8 @@ T6: This trigger occurs when P3 divided by P4 is less than the ET value (manuall
 
 T7: This trigger represents a manual exit button. The action associated with this trigger is to square off all trades. Additionally, the user can select a desired set of pairs and square them off.
 
-| Trigger Point | Condition                                             | Action                                 |
-| ------------- | ----------------------------------------------------- | -------------------------------------- |
-| T1            | Nifty level <= Spot nifty - (V * TP2)                  | Square Off all trades                  |
-| T2            | Nifty level <= Spot nifty - ((V - sellfactor) * TP1)  | STRATEGY EXIT                          |
-| T3            | Nifty level = Spot nifty                               | Square off all sell trades             |
-| T4            | Nifty level >= Spot nifty + ((V - sell factor) * TP1) | S = new spot nifty<br>CE S- strategy<br>PE S+ strategy |
-| T5            | Nifty level >= Spot nifty + (V * TP2)                  | If T2/T4 is already triggered<br>Then sell pair restored to original sell pair |
-| T6            | If P3/P4 < ET (ET is manually entered by admin, default 50) | Square off all sell trades and create new sell pair at new spot nifty<br>S = new spot nifty<br>CE S- strategy<br>PE S+ strategy |
-| T7            | Manual exit button                                    | Square Off all trades<br>Select desired set of pair and square off |
 
-### Index Info
+### Table Heading: Current Market Data
 
 | DATE               | CURRENT DATE       | INDEX                 |
 |--------------------|--------------------|-----------------------|
@@ -104,6 +118,18 @@ T7: This trigger represents a manual exit button. The action associated with thi
 | EXPIRY             | EXPIRY DATE        |                       |
 | SELL PAIR FACTOR (SF) | DROP DOWN LIST{0,50,100} |                    |
 | MULTIPLICATION (M) | DROP DOWN LIST (0,1,2 - 100) |                    |
+
+DATE: This column represents the date, and "CURRENT DATE" refers to the current date.
+TIME: This column represents the time, and "CURRENT TIME" refers to the current time obtained through an API.
+INDEX: This column refers to a specific market index, which is not specified in the provided information. It could represent a stock index like the S&P 500 or any other relevant financial index.
+NIFTY: This column represents the NIFTY index. "CURRENT NIFTY" refers to the current value of the NIFTY index, obtained through calculations.
+SPOT NIFTY LVL (N): This column represents the spot level of the NIFTY index. The value is obtained through calculations.
+VIX: This column represents the VIX index, which is a measure of market volatility. "CURRENT VIX" refers to the current value of the VIX index.
+EXPIRY: This column represents the expiry date, which is not specified in the provided information.
+SELL PAIR FACTOR (SF): This column represents a factor for selling pairs, with options in the drop-down list being {0, 50, 100}.
+MULTIPLICATION (M): This column represents a multiplication factor, with options in the drop-down list being (0, 1, 2 - 100).
+Please note that some information, such as the specific market index and expiry date, is not provided in the given table.
+
 
 
 
@@ -122,7 +148,15 @@ T7: This trigger represents a manual exit button. The action associated with thi
 | EXPIRY DATE  | N+SF   | PE          | P4      | M*1  |
 |              |        | P3 + P4     |         |      |
 
-##### strategy explanation
+EXPIRY: This column represents the expiry date of the options.
+STRIKE: This column represents the strike price of the options.
+OPTION TYPE: This column represents the type of options (Call Option: CE, Put Option: PE).
+PREMIUM: This column represents the premium (price) of the options.
+LOTS: This column represents the number of lots for the options, which is calculated as M*1.
+
+
+##### Table Heading: Trading Strategy Parameters
+
 
 
 | PARTICULAR         | DESCRIPTION                                          | CALCULATION                                | SOURCE |
@@ -141,6 +175,17 @@ T7: This trigger represents a manual exit button. The action associated with thi
 | BF                 | DEFAULT BUY FACTOR                                   | ADMIN PARAMETER (DEFAULT: 300)              | ADMIN  |
 | START              | START CALCULATIONS IN STRATEGY ACC TO SELECTED PARAMETERS | NA                                       | NA     |
 
+CURRENT NIFTY: Represents the current value of the NSE derivative index. The value is obtained from an API.
+CURRENT VIX: Represents the current value of the NSE derivative index for volatility. The value is obtained from an API.
+CURRENT DATE: Represents the current date of the live market. The value is obtained from an API.
+CURRENT TIME: Represents the current time of the live market. The value is obtained from an API.
+P1, P2, P3, P4: Represents the premiums of different options contracts. The values are obtained from an API and calculated based on the strike price, expiry date, and option type.
+SPOT NIFTY LVL(N): Represents the nearest round figure of the NIFTY level. It is calculated as ROUND(NIFTYLVL/50,0)*50, where NIFTYLVL represents the NIFTY level.
+V: Represents the buy factor calculated based on a volatility table.
+WORKING DAYS (d): Represents the number of market days to trade expiry. It is calculated as the difference between the expiry date, current date, and the holidays in between.
+SELL PAIR FACTOR (SF): Represents the factors used to decide the sell strike price. It is selected manually.
+MULTIPLICATION: Represents the number of lots of each leg to be traded. It is selected manually.
+EXPIRY DATE: Represents the date on which the instrument expires. By default, it is set to the current week, but if V is less than the default buy factor (BF), it is set to the next week. It is determined manually
 
 ### Example for volatility table 
 
@@ -161,7 +206,7 @@ T7: This trigger represents a manual exit button. The action associated with thi
 
 
 
-### Actual Strategy Table
+### Table Heading: Trading Strategy Parameters and Calculations
 
 
 | DATE         | CURRENT DATE  | MAX EARNING ON EXPIRY (E) | E                   |
@@ -183,6 +228,42 @@ T7: This trigger represents a manual exit button. The action associated with thi
 | EXPIRY DATE  | N+SF          | PE                        | P4                  |
 |              |               | P3 + P4                   |                     |
 
+The table includes various parameters and calculations for a trading strategy. Here's an explanation of each section:
+
+Date Section:
+CURRENT DATE: Represents the current date in the live market.
+MAX EARNING ON EXPIRY (E): Placeholder for the maximum earning potential on expiry.
+E: Placeholder for the actual value of the maximum earning potential on expiry.
+Time Section:
+CURRENT TIME: Represents the current time in the live market.
+MAX RISK ON EXPIRY (R): Placeholder for the maximum risk on expiry.
+R: Placeholder for the actual value of the maximum risk on expiry.
+NIFTY Section:
+CURRENT NIFTY: Represents the current value of the NSE derivative index.
+E/R: Placeholder for the ratio of maximum earning potential to maximum risk.
+VIX Section:
+CURRENT VIX: Represents the current value of the NSE derivative index for volatility.
+MARGIN: Placeholder for the margin required for trading. The value is obtained from an API.
+Expiry Section:
+EXPIRY DATE: Represents the expiry date of the trading instrument.
+TOTAL FUND NEEDED: Placeholder for the total fund required for trading. The actual value is calculated.
+Buy Pair Section:
+TRADE TYPE: Placeholder for the type of trade.
+LIMIT: Placeholder for the limit of the trade.
+EXPIRY: Represents the expiry date of the options contract.
+STRIKE: Represents the strike price of the options contract.
+OPTION TYPE: Represents the type of the options contract (CE or PE).
+PREMIUM: Represents the premium of the options contract.
+Sell Pair Section:
+EXECUTE: Placeholder for the execution of the trade.
+EXPIRY: Represents the expiry date of the options contract.
+STRIKE: Represents the strike price of the options contract.
+OPTION TYPE: Represents the type of the options contract (CE or PE).
+PREMIUM: Represents the premium of the options contract.
+Please note that the table provided contains placeholders for calculations and actual values. The specific calculations and values need to be filled in based on the trading strategy and its implementation.
+
+
+
 ### Strategy Build Sheet - Notes
 
 | PARTICULAR       | DESCRIPTION                                    | CALCULATION                              | SOURCE |
@@ -201,12 +282,62 @@ T7: This trigger represents a manual exit button. The action associated with thi
 | t                | ADMIN PARAMETER                                | IN SECONDS (DEFAULT: 60)                 | ADMIN  |
 | EXECUTE          | TRIGGER FOR TRADE EXECUTION                     | NA                                       | NA     |
 
-### Admin Panel parameters
+The table represents various notes and calculations related to the strategy build sheet. Here's an explanation of each section:
 
-| PARTICULAR | DESCRIPTION | DEFAULT | TYPE             |
-|------------|-------------|---------|------------------|
-| BF         | BUY FACTOR  | 300     | WHOLE NUMBER     |
-| A          | % PREMIUM   | 0.99    | FRACTION (FLOAT: 0 TO 1) |
-| t          | TIME        | 60      | SECONDS          |
-| TP1        | %           | 40      | NUMBER           |
-| TP2        | %           | 90      | NUMBER           |
+Particular Section:
+
+PARTICULAR: Represents the specific parameter or calculation.
+DESCRIPTION: Provides a description of the particular parameter or calculation.
+CALCULATION: Describes the formula or method used for calculation.
+SOURCE: Indicates the source of the data or information.
+E Section:
+
+E: Represents the earnings at expiry.
+EARNING AT EXPIRY: Placeholder for the calculation of earnings at expiry.
+{(P3+P4-2SF)-(P1+P2-2V)}M50: Placeholder for the actual calculation of earnings at expiry.
+R Section:
+
+R: Represents the risk at expiry.
+RISK AT EXPIRY: Placeholder for the calculation of risk at expiry.
+(V-SF)M50 - E: Placeholder for the actual calculation of risk at expiry.
+E/R Section:
+
+E/R: Represents the ratio of earnings to risk at expiry.
+RATIO OF EARNING TO RISK AT EXPIRY: Placeholder for the calculation of the E/R ratio.
+E/R: Placeholder for the actual E/R ratio.
+Margin Section:
+
+MARGIN: Represents the margin needed for the trading pair.
+MARGIN NEEDED FOR PAIR: Placeholder for obtaining the margin from an API.
+Total Fund Needed Section:
+
+TOTAL FUND NEEDED: Represents the total fund needed for the trade.
+TOTAL FUND NEEDED FOR TRADE: Placeholder for the calculation of the total fund needed.
+MARGIN + (P1+P2-P3-P4)*50: Placeholder for the actual calculation of the total fund needed.
+Trade Type Section:
+
+TRADE TYPE: Represents how the strategy is executed.
+HOW THE STRATEGY IS EXECUTED: Placeholder for selecting the trade type (Market or Limit).
+MARKET: Placeholder for executing all trades at market rates.
+LIMIT: Placeholder for setting the rate according to admin calculation and triggering trade if conditions are met.
+PT1 and PT2 Sections:
+
+PT1: Represents the premium trigger 1.
+PT2: Represents the premium trigger 2.
+PREMIUM TRIGGER 1: Placeholder for the calculation of the premium trigger 1.
+PREMIUM TRIGGER 2: Placeholder for the calculation of the premium trigger 2.
+P1A and P2A: Placeholders for the actual calculations of the premium triggers, with A representing the admin parameter.
+A and t Sections:
+
+A: Represents the admin parameter.
+t: Represents the admin parameter.
+ADMIN PARAMETER: Placeholder for the admin parameter values.
+FRACTION (0 TO .99){DEFAULT: .99}: Placeholder for the actual value of the admin parameter.
+IN SECONDS (DEFAULT: 60): Placeholder for the default value of the admin parameter.
+EXECUTE Section:
+
+EXECUTE: Represents the trigger for trade execution.
+TRIGGER FOR TRADE EXECUTION: Placeholder indicating the trigger for trade execution.
+Please note that the table provided contains placeholders for calculations and actual values. The specific calculations and values need to be filled in based on the trading strategy and its implementation.
+
+
