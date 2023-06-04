@@ -159,10 +159,15 @@ Please note that some information, such as the specific market index and expiry 
 |              |        | P3 + P4     |         |      |
 
 EXPIRY: This column represents the expiry date of the options.
+
 STRIKE: This column represents the strike price of the options.
+
 OPTION TYPE: This column represents the type of options (Call Option: CE, Put Option: PE).
+
 PREMIUM: This column represents the premium (price) of the options.
+
 LOTS: This column represents the number of lots for the options, which is calculated as M*1.
+
 
 
 ##### Table Heading: Trading Strategy Parameters
@@ -186,16 +191,28 @@ LOTS: This column represents the number of lots for the options, which is calcul
 | START              | START CALCULATIONS IN STRATEGY ACC TO SELECTED PARAMETERS | NA                                       | NA     |
 
 CURRENT NIFTY: Represents the current value of the NSE derivative index. The value is obtained from an API.
+
 CURRENT VIX: Represents the current value of the NSE derivative index for volatility. The value is obtained from an API.
+
 CURRENT DATE: Represents the current date of the live market. The value is obtained from an API.
+
 CURRENT TIME: Represents the current time of the live market. The value is obtained from an API.
-P1, P2, P3, P4: Represents the premiums of different options contracts. The values are obtained from an API and calculated based on the strike price, expiry date, and option type.
+
+P1, P2, P3, P4: Represents the premiums of different options contracts. The values are obtained from an API and calculated based on the 
+strike price, expiry date, and option type.
+
 SPOT NIFTY LVL(N): Represents the nearest round figure of the NIFTY level. It is calculated as ROUND(NIFTYLVL/50,0)*50, where NIFTYLVL represents the NIFTY level.
+
 V: Represents the buy factor calculated based on a volatility table.
+
 WORKING DAYS (d): Represents the number of market days to trade expiry. It is calculated as the difference between the expiry date, current date, and the holidays in between.
+
 SELL PAIR FACTOR (SF): Represents the factors used to decide the sell strike price. It is selected manually.
+
 MULTIPLICATION: Represents the number of lots of each leg to be traded. It is selected manually.
+
 EXPIRY DATE: Represents the date on which the instrument expires. By default, it is set to the current week, but if V is less than the default buy factor (BF), it is set to the next week. It is determined manually
+
 
 ### Example for volatility table 
 
@@ -241,36 +258,74 @@ EXPIRY DATE: Represents the date on which the instrument expires. By default, it
 The table includes various parameters and calculations for a trading strategy. Here's an explanation of each section:
 
 Date Section:
+
 CURRENT DATE: Represents the current date in the live market.
+
 MAX EARNING ON EXPIRY (E): Placeholder for the maximum earning potential on expiry.
+
 E: Placeholder for the actual value of the maximum earning potential on expiry.
+
+
+
 Time Section:
+
 CURRENT TIME: Represents the current time in the live market.
+
 MAX RISK ON EXPIRY (R): Placeholder for the maximum risk on expiry.
+
 R: Placeholder for the actual value of the maximum risk on expiry.
+
+
 NIFTY Section:
+
 CURRENT NIFTY: Represents the current value of the NSE derivative index.
+
 E/R: Placeholder for the ratio of maximum earning potential to maximum risk.
+
+
 VIX Section:
+
 CURRENT VIX: Represents the current value of the NSE derivative index for volatility.
+
 MARGIN: Placeholder for the margin required for trading. The value is obtained from an API.
+
+
 Expiry Section:
+
 EXPIRY DATE: Represents the expiry date of the trading instrument.
+
 TOTAL FUND NEEDED: Placeholder for the total fund required for trading. The actual value is calculated.
+
+
 Buy Pair Section:
+
 TRADE TYPE: Placeholder for the type of trade.
+
 LIMIT: Placeholder for the limit of the trade.
+
 EXPIRY: Represents the expiry date of the options contract.
+
 STRIKE: Represents the strike price of the options contract.
+
 OPTION TYPE: Represents the type of the options contract (CE or PE).
+
 PREMIUM: Represents the premium of the options contract.
+
+
 Sell Pair Section:
+
 EXECUTE: Placeholder for the execution of the trade.
+
 EXPIRY: Represents the expiry date of the options contract.
+
 STRIKE: Represents the strike price of the options contract.
+
 OPTION TYPE: Represents the type of the options contract (CE or PE).
+
 PREMIUM: Represents the premium of the options contract.
+
 Please note that the table provided contains placeholders for calculations and actual values. The specific calculations and values need to be filled in based on the trading strategy and its implementation.
+
 
 
 
